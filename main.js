@@ -2,10 +2,38 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
+const glyphStates = {
+  '♡': '♥',
+  '♥': '♡'
+}
+
+const colorStates = {
+  'red': '',
+  '': 'red'
+}
+
 // Your JavaScript code goes here!
 
+const articleHearts = document.querySelectorAll('.like-glpyh')
 
+function likeCallback (e) {
+  const heart = e.target
+  mimicServerCall()
+  .then(() => {
+    heart.innerText = glyphStates[heart.innerText]
+    heart.style.color = colorStates[heart.style.color]
+  })
+  .catch(() => {
+    const modal = document.getElementById('modal')
+    modal.className = ''
+    modal.innerText = error
+    setTimeout(() => modal.className = 'hidden', 3000)
+  })
+}
 
+for (const glyph of articleHearts) {
+  glyph.addEventListener('click', likeCallback)
+}
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
